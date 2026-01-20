@@ -1,0 +1,11 @@
+res://scenes/main.tscn
+res://scenes/obstacle.tscn
+res://scripts/runner.gd
+res://scripts/game_state.gd
+res://scripts/replay_player.gd
+res://scripts/replay_buffer.gd
+res://scripts/player_ship.gd
+res://scripts/enemy_base.gd
+res://scripts/enemy_chicken.gd
+res://scripts/enemy_toaster.gd
+res://scripts/enemy_orb.gd

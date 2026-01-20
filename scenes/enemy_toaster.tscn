@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://toaster123"]
+
+[ext_resource type="Script" path="res://scripts/enemy_toaster.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_toaster"]
+size = Vector2(70, 50)
+
+[node name="EnemyToaster" type="Area2D"]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_toaster")
+
+[node name="Body" type="ColorRect" parent="."]
+offset_left = -35.0
+offset_top = -20.0
+offset_right = 35.0
+offset_bottom = 20.0
+color = Color(0.2, 0.25, 0.15, 1)
+
+[node name="Core" type="ColorRect" parent="."]
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 20.0
+offset_bottom = 10.0
+color = Color(0.4, 0.6, 0.2, 1)
+
+[node name="Spike1" type="ColorRect" parent="."]
+offset_left = -40.0
+offset_top = -5.0
+offset_right = -35.0
+offset_bottom = 5.0
+color = Color(0.6, 0.8, 0.3, 1)
+
+[node name="Spike2" type="ColorRect" parent="."]
+offset_left = 35.0
+offset_top = -5.0
+offset_right = 40.0
+offset_bottom = 5.0
+color = Color(0.6, 0.8, 0.3, 1)
+
+[node name="Eye" type="ColorRect" parent="."]
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
+color = Color(0.8, 1, 0.4, 1)
+

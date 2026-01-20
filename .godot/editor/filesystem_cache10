@@ -1,0 +1,16 @@
+72322a848ab928aa5c89f0cb78209805
+::res://::1768851219
+DEV_CHECKLIST.md::TextFile::-1::1768850824::0::1::::<><><>0<>0<><>::
+GETTING_STARTED.md::TextFile::-1::1768850686::0::1::::<><><>0<>0<><>::
+icon.svg::CompressedTexture2D::5944657241232736758::1768850500::1768851219::1::::<><><>0<>0<>df65a75d3932475ad2b690f321dcac8e<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
+README.md::TextFile::-1::1768850630::0::1::::<><><>0<>0<><>::
+::res://scenes/::1768850585
+main.tscn::PackedScene::945542714282746674::1768851219::0::1::::<><><>0<>0<><>::uid://bu316oh4gmy73::::res://scripts/game_state.gd<>uid://b6d0b1id1eqeg::::res://scripts/runner.gd<>uid://c5fq7qmpf0xfg::::res://scripts/replay_buffer.gd<>uid://iivyjfvkwekv::::res://scripts/replay_player.gd<>uid://d3e7l4tyyat5w::::res://scripts/game_ui.gd<>uid://cqxvvvqxqxqxq::::res://icon.svg
+obstacle.tscn::PackedScene::5009833016697346407::1768851219::0::1::::<><><>0<>0<><>::uid://c0s6eih0gf50f::::res://scripts/obstacle.gd
+::res://scripts/::1768850929
+game_state.gd::GDScript::3849634882457081052::1768850517::0::1::::GameState<>Node<><>0<>0<><>::
+game_ui.gd::GDScript::9134771325112913054::1768850658::0::1::::GameUI<>CanvasLayer<><>0<>0<><>::
+obstacle.gd::GDScript::6566611060006035383::1768850550::0::1::::Obstacle<>Area2D<><>0<>0<><>::
+replay_buffer.gd::GDScript::6889858042187170308::1768850535::0::1::::ReplayBuffer<>Node<><>0<>0<><>::
+replay_player.gd::GDScript::579344168441100841::1768850646::0::1::::ObstacleSpawner<>Node2D<><>0<>0<><>::
+runner.gd::GDScript::4569989058484116718::1768850526::0::1::::Runner<>CharacterBody2D<><>0<>0<><>::

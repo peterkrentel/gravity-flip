@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://bbfk0qjx5b0tq"]
+
+[ext_resource type="Script" uid="uid://bu316oh4gmy73" path="res://scripts/game_state.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/player_ship.gd" id="2"]
+[ext_resource type="Script" uid="uid://c5fq7qmpf0xfg" path="res://scripts/replay_buffer.gd" id="3"]
+[ext_resource type="Script" uid="uid://iivyjfvkwekv" path="res://scripts/replay_player.gd" id="4"]
+[ext_resource type="Texture2D" uid="uid://cqxvvvqxqxqxq" path="res://icon.svg" id="5"]
+[ext_resource type="Script" path="res://scripts/camera_shake.gd" id="6"]
+[ext_resource type="PackedScene" uid="uid://hud123" path="res://scenes/hud.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://touch123" path="res://scenes/touch_controls.tscn" id="8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ship"]
+size = Vector2(50, 50)
+
+[node name="Main" type="Node2D"]
+
+[node name="GameState" type="Node" parent="."]
+script = ExtResource("1")
+
+[node name="ReplayBuffer" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(540, 960)
+script = ExtResource("6")
+
+[node name="PlayerShip" type="Area2D" parent="."]
+position = Vector2(540, 1700)
+script = ExtResource("2")
+
+[node name="Sprite2D" type="Sprite2D" parent="PlayerShip"]
+modulate = Color(0.3, 1, 0.3, 1)
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerShip"]
+shape = SubResource("RectangleShape2D_ship")
+
+[node name="Label" type="Label" parent="PlayerShip"]
+offset_left = -20.0
+offset_top = -30.0
+offset_right = 20.0
+offset_bottom = -10.0
+text = "🚀"
+horizontal_alignment = 1
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("4")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1080.0
+offset_bottom = 1920.0
+color = Color(0.05, 0.05, 0.1, 1)
+z_index = -100
+
+[node name="HUD" parent="." instance=ExtResource("7")]
+
+[node name="TouchControls" parent="." instance=ExtResource("8")]
+

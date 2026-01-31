@@ -1,0 +1,122 @@
+name: Security Scan
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run weekly on Mondays at 8:00 UTC
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  codeql:
+    name: CodeQL Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          # GDScript is not natively supported by CodeQL, but we can scan for general patterns
+          # Using 'python' as closest language match for GDScript syntax
+          languages: python
+          queries: security-and-quality
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:python"
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: TruffleHog Secret Scan
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --only-verified
+
+  godot-security-check:
+    name: Godot Project Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Check for sensitive data in project files
+        run: |
+          echo "Checking for sensitive data patterns..."
+          
+          # Check for API keys, passwords, tokens
+          if grep -r -E "(api[_-]?key|password|secret|token|private[_-]?key)" \
+             --include="*.gd" --include="*.tres" --include="*.tscn" \
+             --exclude-dir=".git" --exclude-dir=".godot" .; then
+            echo "⚠️  Warning: Potential sensitive data found in project files"
+            echo "Please review the matches above"
+          else
+            echo "✅ No obvious sensitive data patterns found"
+          fi
+          
+          # Check for hardcoded URLs or credentials
+          if grep -r -E "(http[s]?://.*:[^@]+@|mongodb://|postgresql://)" \
+             --include="*.gd" --exclude-dir=".git" --exclude-dir=".godot" .; then
+            echo "⚠️  Warning: Potential hardcoded credentials in URLs"
+          else
+            echo "✅ No hardcoded credentials in URLs found"
+          fi
+      
+      - name: Validate project configuration
+        run: |
+          echo "Validating project.godot configuration..."
+          
+          # Check for debug settings that shouldn't be in production
+          if grep -i "debug.*=.*true" project.godot; then
+            echo "ℹ️  Note: Debug settings found (this is OK for development)"
+          fi
+          
+          # Verify project has proper version control settings
+          if [ -f ".gitignore" ]; then
+            echo "✅ .gitignore file exists"
+            
+            # Check if .godot and .import are ignored
+            if grep -q "\.godot" .gitignore && grep -q "\.import" .gitignore; then
+              echo "✅ Godot build artifacts are properly ignored"
+            else
+              echo "⚠️  Warning: .godot and .import should be in .gitignore"
+            fi
+          else
+            echo "⚠️  Warning: No .gitignore file found"
+          fi
+          
+          echo "Security validation complete"

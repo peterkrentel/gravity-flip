@@ -1,0 +1,19 @@
+version: 2
+updates:
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+
+  # Godot addon/plugin updates (manual check)
+  # Note: Dependabot doesn't natively support Godot addons
+  # Consider manual periodic checks for GDUnit4 and other plugins

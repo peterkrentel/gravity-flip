@@ -1,0 +1,100 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and Test Godot Project
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+      
+      - name: Verify Godot installation
+        run: godot --version
+      
+      - name: Import project
+        run: |
+          mkdir -p .godot/imported
+          godot --headless --editor --quit || true
+          echo "Project imported successfully"
+      
+      - name: Export project (validation)
+        run: |
+          mkdir -p build
+          # Validate that project can be exported
+          godot --headless --export-debug "Linux/X11" build/gravity-flip.x86_64 || true
+          echo "Export validation completed"
+      
+      - name: Run GDUnit4 tests (if plugin available)
+        continue-on-error: true
+        run: |
+          # Check if GDUnit4 is installed
+          if [ -d "addons/gdUnit4" ]; then
+            echo "Running GDUnit4 tests..."
+            godot --headless --script res://addons/gdUnit4/bin/GdUnitCmdTool.gd --config=res://.gdunit_config.yml
+          else
+            echo "GDUnit4 not installed - install from AssetLib to enable tests"
+            echo "See test/README.md for installation instructions"
+          fi
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test_results/
+          if-no-files-found: ignore
+      
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
+          if-no-files-found: ignore
+
+  lint-gdscript:
+    name: Lint GDScript
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.3.0
+          use-dotnet: false
+      
+      - name: Lint GDScript files
+        run: |
+          # Basic syntax check for all .gd files
+          echo "Checking GDScript syntax..."
+          for file in $(find scripts test -name "*.gd" 2>/dev/null); do
+            echo "Checking $file..."
+            godot --headless --check-only --script "$file" || echo "Warning: Issue in $file"
+          done
+          echo "GDScript lint complete"

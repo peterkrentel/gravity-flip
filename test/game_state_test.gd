@@ -44,7 +44,7 @@ func test_game_transitions_to_dying_when_no_lives():
 	game_state.start_game()
 	
 	# Use up all lives
-	for i in range(game_state.max_lives):
+	for _i in range(game_state.max_lives):
 		game_state.trigger_death()
 		await get_tree().create_timer(0.1).timeout
 	
@@ -56,7 +56,7 @@ func test_adding_score_emits_signal():
 	var game_state = GameState.new()
 	game_state.start_game()
 	
-	var signal_monitor = monitor_signals(game_state)
+	monitor_signals(game_state)
 	game_state.add_score(100)
 	
 	assert_signal(game_state).is_emitted("score_changed")
@@ -66,7 +66,7 @@ func test_adding_score_emits_signal():
 func test_state_change_emits_signal():
 	var game_state = GameState.new()
 	
-	var signal_monitor = monitor_signals(game_state)
+	monitor_signals(game_state)
 	game_state.start_game()
 	
 	assert_signal(game_state).is_emitted("state_changed")

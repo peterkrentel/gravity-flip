@@ -1,0 +1,48 @@
+# Godot 4+ specific ignores
+.godot/
+*.import
+
+# Godot-specific
+export_presets.cfg
+export.cfg
+.mono/
+data_*/
+mono_crash.*.json
+
+# Build artifacts
+build/
+dist/
+*.exe
+*.dmg
+*.apk
+*.ipa
+*.app
+*.x86_64
+*.x86
+*.zip
+
+# Test results
+test_results/
+.gdunit_temp/
+coverage/
+
+# Editor-specific
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# OS-specific
+Thumbs.db
+desktop.ini

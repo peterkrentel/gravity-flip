@@ -107,12 +107,52 @@ If the replay isn't hilarious, nothing else matters.
 
 ---
 
+## 🧪 Development & Testing
+
+### Spec-Driven Development
+
+This project uses **GDUnit4** for behavior-driven development (BDD):
+
+```bash
+# Install GDUnit4 from Godot AssetLib
+# Then run tests in Godot editor via GDUnit4 panel
+# Or from command line:
+godot --headless --script res://addons/gdUnit4/bin/GdUnitCmdTool.gd
+```
+
+See [`test/README.md`](test/README.md) for detailed testing instructions.
+
+### CI/CD Workflows
+
+- **Build & Test** (`.github/workflows/build-test.yml`)
+  - Runs on every push and pull request
+  - Validates project export
+  - Runs GDUnit4 test suite
+  - Lints GDScript files
+
+- **Security Scan** (`.github/workflows/security-scan.yml`)
+  - CodeQL security analysis
+  - Secret scanning with TruffleHog
+  - Dependency review
+  - Godot-specific security checks
+
+### Development Workflow
+
+1. Write spec/test for new feature (`test/`)
+2. Implement feature in `scripts/`
+3. Run tests locally
+4. Commit and push
+5. CI validates build, tests, and security
+
+---
+
 ## 📝 Notes
 
 - **Single scene architecture** - No menus, no loaders, no complexity
 - **Replay is deterministic playback** - Not screen recording (saves battery)
 - **Subscription FX layer** - Cosmetic only, zero gameplay coupling
 - **Ads are dumb** - Interstitial after 2-3 deaths, never during replay
+- **Test coverage** - Spec-driven development ensures quality
 
 ---
 

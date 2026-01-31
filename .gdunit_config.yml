@@ -1,0 +1,21 @@
+# GDUnit4 Configuration
+# https://github.com/MikeSchulze/gdUnit4
+
+version: 1.0
+
+# Test directories
+test_paths:
+  - res://test
+
+# Test report settings
+report:
+  format: "junit"
+  output: "test_results"
+
+# Test execution settings
+test_timeout: 10000  # milliseconds
+update_notification: true
+
+# Server settings for CI/CD
+server:
+  port: 6008

@@ -1,5 +1,10 @@
 # 🎮 Gravity Flip
 
+[![Build and Test](https://github.com/peterkrentel/gravity-flip/actions/workflows/build-test.yml/badge.svg)](https://github.com/peterkrentel/gravity-flip/actions/workflows/build-test.yml)
+[![Security Scan](https://github.com/peterkrentel/gravity-flip/actions/workflows/security-scan.yml/badge.svg)](https://github.com/peterkrentel/gravity-flip/actions/workflows/security-scan.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Godot](https://img.shields.io/badge/Godot-4.3-blue.svg)](https://godotengine.org/)
+
 **A clip-first endless runner where failure is the feature.**
 
 This is a 10-day experiment to build a viral mobile game focused on shareable death replays.

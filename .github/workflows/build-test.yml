@@ -7,10 +7,17 @@ on:
     branches: [ main, develop ]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
     name: Build and Test Godot Project
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      actions: read
     
     steps:
       - name: Checkout repository
@@ -68,6 +75,9 @@ jobs:
   lint-gdscript:
     name: Lint GDScript
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
     
     steps:
       - name: Checkout repository
